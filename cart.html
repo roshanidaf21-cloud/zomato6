@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Your Cart 🛒</h1>
+<a href="index.html">⬅ Back</a>
+
+<div id="cart-items"></div>
+
+<script src="script.js"></script>
+
+<script>
+loadCart();
+
+function loadCart(){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let container = document.getElementById("cart-items");
+  container.innerHTML = "";
+
+  let total = 0;
+
+  cart.forEach(id => {
+    let item = foods.find(f => f.id === id);
+    total += item.price;
+
+    container.innerHTML += `
+      <div class="card">
+        <h3>${item.name}</h3>
+        <p>₹${item.price}</p>
+        <button onclick="removeFromCart(${item.id})">Remove ❌</button>
+      </div>
+    `;
+  });
+
+  container.innerHTML += `
+    <h2>Total: ₹${total}</h2>
+    <button onclick="placeOrder()">Place Order</button>
+  `;
+}
+</script>
+
+</body>
+</html>

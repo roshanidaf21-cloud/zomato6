@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Zomato Clone</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+
+<div class="header">
+  <div class="location">
+    <h2 id="area">📍 Detecting...</h2>
+    <p id="city"></p>
+  </div>
+
+  <input type="text" id="search" placeholder="Search food..." class="search">
+</div>
+<!-- HOME -->
+<div id="home">
+    <h2>Food Items</h2>
+    <div id="food-list"></div>
+  </div>
+  
+  <!-- CART -->
+  <div id="cart" style="display:none;">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+  </div>
+  
+  <!-- ORDERS -->
+  <div id="orders" style="display:none;">
+    <h2>Your Orders</h2>
+    <div id="order-list"></div>
+  </div>
+  
+  <!-- PROFILE -->
+  <div id="profile" style="display:none;">
+    <h2>Profile</h2>
+  
+    <div id="login">
+      <input type="text" id="name" placeholder="Enter Name">
+      <input type="email" id="email" placeholder="Enter Email">
+      <button onclick="saveUser()">Save</button>
+    </div>
+  
+    <p id="pname"></p>
+    <p id="pemail"></p>
+  </div>
+
+
+<div id="food-list"></div>
+
+<div class="bottom-nav">
+    <div onclick="showPage('home')">🏠 Home</div>
+    <div onclick="showPage('cart')">🛒 Cart</div>
+    <div onclick="showPage('orders')">📦 Orders</div>
+    <div onclick="showPage('profile')">👤 Profile</div>
+  </div>
+
+<script src="script.js"></script>
+
+<script>
+displayFoods(foods);
+document.getElementById("search").addEventListener("input", function () {
+  let value = this.value.toLowerCase();
+
+  let filtered = foods.filter(item =>
+    item.name.toLowerCase().includes(value)
+  );
+
+  displayFoods(filtered);
+});
+updateCartCount();
+getLocation();
+
+function goToCart(){
+  window.location.href = "cart.html";
+}
+
+function displayFoods(list){
+  const foodList = document.getElementById("food-list");
+  foodList.innerHTML = "";
+
+  list.forEach(item => {
+    foodList.innerHTML += `
+      <div class="card">
+        <img src="${item.image}">
+        <h3>${item.name}</h3>
+        <p>⭐ ${item.rating} • ${item.time}</p>
+        <p>₹${item.price}</p>
+        <button onclick="addToCart(${item.id})">Add</button>
+      </div>
+    `;
+  });
+}
+</script>
+
+</body>
+</html>
